@@ -1,0 +1,22 @@
+elk:
+  image: sebp/elk
+  ports:
+    - "5601:5601"
+    - "9200:9200"
+    - "5044:5044"
+  ulimits:
+    memlock:
+      soft: -1
+      hard: -1
+    nofile:
+      soft: 262144
+      hard: 262144
+  privileged: true
+  volumes:
+    - ./configuration/logstash:/etc/logstash/conf.d
+    - ../Parsed:/data/backfill
+    - ./configuration/twitter-elasticsearch-mapping.json:/data/twitter-elasticsearch-mapping.json
+  environment:
+    - LOGSTASH_START=0
+    - ELASTICSEARCH_START=1
+    - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"

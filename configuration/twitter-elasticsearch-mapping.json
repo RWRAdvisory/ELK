@@ -1,0 +1,47 @@
+{
+    "template": "backfill",
+    "settings": {
+      "number_of_shards": 1,
+      "index.mapping.total_fields.limit" : 10000
+    },
+    "mappings": {
+        "_default_": {
+          "dynamic_templates": [
+           {
+              "message_field": {
+                 "mapping": {
+                    "norms": false,
+                    "type": "text"
+                 },
+                 "match_mapping_type": "string",
+                 "match": "text"
+              }
+           },
+           {
+              "string_fields": {
+                 "mapping": {
+                    "norms": false,
+                    "type": "text",
+                    "fields": {
+                       "raw": {
+                          "ignore_above": 256,
+                          "type": "keyword"
+                       }
+                    }
+                 },
+                 "match_mapping_type": "string",
+                 "match": "*"
+              }
+           }
+        ],
+        "properties": {
+          "sug_title": {
+            "type":"string"
+          },
+          "text": {
+            "type":"text"
+          }
+        }
+        }
+    }
+}
